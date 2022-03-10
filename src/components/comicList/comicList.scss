@@ -1,0 +1,25 @@
+.comicList {
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+        row-gap: 57px;
+        column-gap: 67px;
+        margin-bottom: 45px;
+    }
+
+    &__card {
+        display: flex;
+        width: 225px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__price {
+        text-transform: uppercase;
+        opacity: 0.6;
+    }
+
+    &__footer {
+        text-align: center;
+    }
+}

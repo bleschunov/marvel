@@ -1,0 +1,48 @@
+@import '../../styles/variables.scss';
+
+.app {
+  max-width: calc($pageMaxWidth + 60px);
+  margin: 0 auto;
+  padding: 45px 30px 50px;
+  position: relative;
+
+  &__header {
+    margin-bottom: 50px;
+  }
+
+  &__randomChar {
+    margin-bottom: 50px;
+  }
+
+  &__charContent {
+    display: flex;
+    gap: 25px;
+  }
+
+  &__charList {
+    flex-basis: 60%;
+  }
+
+  &__charInfo {
+    flex-basis: 40%;
+    align-self: start;
+  }
+
+  &__appBanner {
+    margin-bottom: 45px;
+    display: none;
+
+    @media screen and (min-width: $m) {
+      display: block;
+    }
+  }
+
+  &__vision {
+    z-index: -1;
+    width: 467px;
+    height: 372px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}

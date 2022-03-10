@@ -1,0 +1,35 @@
+@import '../../styles/variables.scss';
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: $pageMaxWidth;
+    font-weight: bold;
+
+    &__header {
+        font-size: 28px;
+        flex-shrink: 0;
+
+        & span {
+            color: $red;
+        }
+    }
+
+    &__nav {
+        font-size: 24px;
+    }
+
+    &__item {
+        display: inline;
+
+        &_active {
+            color: $red;
+        }
+
+        &:hover {
+            color: $red;
+        }
+    }
+}
+

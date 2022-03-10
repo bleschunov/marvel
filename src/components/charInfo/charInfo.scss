@@ -1,0 +1,59 @@
+@import '../../styles/variables.scss';
+
+.charInfo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+    background-color: $white;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+    padding: 25px;
+    column-gap: 25px;
+
+    &__avatar {
+        width: 100%;
+        padding-bottom: 15px;
+    }
+
+    &__header {
+        display: grid;
+        grid-template-rows: 1fr auto auto;
+        row-gap: 10px;
+        padding-bottom: 15px;
+    }
+
+    &__name {
+        text-transform: uppercase;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    &__descr {
+        grid-column: 1 / -1;
+        padding-bottom: 25px;
+    }
+
+    &__list {
+        grid-column: 1 / -1;
+
+        &:before {
+            content: 'Comics:';
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }  
+    }
+
+    &__item {
+        padding: 5px 10px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        line-height: 14px;
+        margin-bottom: 10px;
+
+        :last-child {
+            margin-bottom: 0;
+        }
+    }
+
+  
+
+}

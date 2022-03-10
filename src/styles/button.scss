@@ -1,0 +1,75 @@
+@import './variables.scss';
+
+.button {
+    position: relative;
+    width: 101px;
+    height: 18px;
+    background-color: transparent;
+    font-size: 14px;
+    font-style: normal;
+    text-transform: uppercase;
+    color: $white;
+    cursor: pointer;
+    transition: transform 300ms;
+    margin: 10px 0 10px;
+
+    &:before {
+        content: '';
+        background-color: transparent;
+        position: absolute;
+        left: 0;
+        top: -10px;
+        border-bottom: 10px solid;
+        border-left: 10px solid transparent;
+        width: 91px;
+    }
+
+    &:after {
+        content: '';
+        background-color: transparent;
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        border-top: 10px solid;
+        border-right: 10px solid transparent;
+        width: 91px;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    &_long {
+        width: 170px;
+
+        &:after, &:before {
+            width: 160px;
+        }
+    }
+
+    &_red {
+        background-color: $red;
+
+        &:after {
+            border-top-color: $red;
+        }
+
+        &:before {
+            border-bottom-color: $red;
+        }
+    }
+
+    &_gray {
+        background-color :$gray;
+
+        &:after {
+            border-top-color: $gray;
+        }
+
+        &:before {
+            border-bottom-color: $gray;
+        }
+    }
+
+
+}

@@ -1,0 +1,19 @@
+@import '../../styles/variables.scss';
+
+.appBanner {
+    background-color: $black;
+    padding: 0 25px 0 45px;
+
+    &__flex {
+        display: flex;
+        align-items: center;
+        gap: 83px;
+    }
+
+    &__header {
+        color: $white;
+        font-size: 24px;
+        font-weight: bold;
+        flex-grow: 1;
+    }
+}
