@@ -2,6 +2,7 @@
 
 .button {
     position: relative;
+    text-align: center;
     width: 101px;
     height: 18px;
     background-color: transparent;
@@ -36,6 +37,11 @@
     }
 
     &:hover {
+        transform: translateY(-5px);
+    }
+
+    &:focus {
+        outline: none;
         transform: translateY(-5px);
     }
 

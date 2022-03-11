@@ -9,6 +9,7 @@
 .randomChar {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    height: 250px;
 
     &__container {
         padding: 35px 40px 35px 35px;
@@ -43,7 +44,7 @@
     &__avatar {
         width: 180px;
         height: 180px;
-        object-fit: cover;
+        object-position: top;
     }
 
     &__info {

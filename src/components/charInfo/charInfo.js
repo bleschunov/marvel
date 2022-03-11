@@ -1,49 +1,128 @@
-import { v4 } from 'uuid';
+import { Component, Children, cloneElement } from 'react'
+import MarvelService from '../../services/marvelService'
+import PropTypes from 'prop-types'
+
+import Spinner from '../spinner/spinner'
+import Error from '../error/error'
 
 import './charInfo.scss'
 import '../../styles/button.scss'
 
-import loki from '../../resources/images/loki.png'
-
-const CharInfo = ({className}) => {
-    const data = {
-        img: loki,
-        name: 'loki',
-        descr: 'In Norse mythology, Loki is a god or jötunn (or both). Loki is the son of Fárbauti and Laufey, and the brother of Helblindi and Býleistr. By the jötunn Angrboða, Loki is the father of Hel, the wolf Fenrir, and the world serpent Jörmungandr. By Sigyn, Loki is the father of Nari and/or Narfi and with the stallion Svaðilfari as the father, Loki gave birth—in the form of a mare—to the eight-legged horse Sleipnir. In addition, Loki is referred to as the father of Váli in the Prose Edda.',
-        comics: [
-            'All-Winners Squad: Band of Heroes (2011) #3',
-            'Alpha Flight (1983) #50',
-            'Amazing Spider-Man (1999) #503',
-            'Amazing Spider-Man (1999) #504',
-            'AMAZING SPIDER-MAN VOL. 7: BOOK OF EZEKIEL TPB (Trade Paperback)',
-            'Amazing-Spider-Man: Worldwide Vol. 8 (Trade Paperback)',
-            'Asgardians Of The Galaxy Vol. 2: War Of The Realms (Trade Paperback)',
-            'Vengeance (2011) #4',
-            'Avengers (1963) #1',
-            'Avengers (1996) #1'
-        ]
+class CharInfo extends Component {
+    state = {
+        char: {},
+        loading: true,
+        error: false
     }
 
-    const comics = data.comics.map(item => {
-        return (
-            <li key={ v4() } className="charInfo__item">{item}</li>
-        )
-    })
+    componentDidMount = () => {
+        this.updateChar();
+    }
 
+    componentDidUpdate = prevProps => {
+        if (this.props !== prevProps) {
+            this.updateChar();
+        }
+    }
+
+    onLoading = () => {
+        this.setState({
+            loading: true,
+            error: false
+        })
+    }
+
+    onLoaded = char => {
+        this.setState({
+            char,
+            loading: false,
+        })
+    }
+
+    onError = () => {
+        this.setState({
+            loading: false,
+            error: true
+        })
+    }
+
+    updateChar = id => {
+        this.onLoading()
+
+        const { selectedCharId } = this.props
+
+        MarvelService
+            .getCharacter(selectedCharId)
+            .then(this.onLoaded)
+            .catch(this.onError)
+    }
+    
+
+    render() {
+        const { className } = this.props
+        const { char, loading, error } = this.state
+
+        let content
+        if (loading) {
+            content = (<Spinner />)
+        } else if (error) {
+            content = (<Error />)
+        } else {
+            content = (<View char={char} />)
+        }
+
+        return (
+            <section className={`charInfo ${className}`}>
+                {content}
+            </section>
+        )
+    }
+}
+
+const View = ({char: {name, thumbnail, description, homepage, wiki, comics, objectFit}}) => {
+    let comicsItems = [];
+    if (comics.length !== 0) {
+
+        for (let i = 0; i < comics.length; i++) {
+            if (i === 10) break 
+            comicsItems.push(<li key={i}>{comics[i].name}</li>)
+        }
+
+    } else {
+        comicsItems = <li>There are no comics with this character</li>
+    }
+    
     return (
-        <section className={`charInfo ${className}`}>
-            <img src={data.img} alt={data.name} className="charInfo__avatar" />
+        <>
+            <img src={thumbnail} alt={name} className="charInfo__avatar" style={{ objectFit }} />
             <div className="charInfo__header">
-                <h3 className="charInfo__name">{data.name}</h3>
-                <button className="button button_red charInfo__button">homepage</button>
-                <button className="button button_gray charInfo__button">wiki</button>    
+                <h3 className="charInfo__name">{name}</h3>
+                <a href={homepage} className="button button_red charInfo__button">homepage</a>
+                <a href={wiki} className="button button_gray charInfo__button">wiki</a>    
             </div>
-            <p className="charInfo__descr">{data.descr}</p>
-            <ul className="charInfo__list">
-                {comics}
-            </ul>    
-        </section>
+            <p className="charInfo__descr">{description}</p>
+            <div className="charInfo__listHeader">Comics:</div>
+            <ComicsList>
+                {comicsItems}
+            </ComicsList>
+        </>
     )
+}
+
+const ComicsList = ({children}) => {
+    return (
+        <ul className="charInfo__list">
+            {
+                Children.map(children, child => {
+                    return cloneElement(child, {className: "charInfo__item"})
+                })
+            }
+        </ul>
+    )
+}
+
+CharInfo.propTypes = {
+    selectedCharId: PropTypes.number
 }
 
 export default CharInfo

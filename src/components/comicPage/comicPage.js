@@ -2,9 +2,9 @@ import './comicPage.scss'
 
 import xMen from '../../resources/images/x-men.png'
 
-const ComicPage = ({}) => {
+const ComicPage = ({className}) => {
     return (
-        <section className="comicPage">
+        <section className={`comicPage ${className}`}>
             <div className="comicPage__grid">
                 <img src={xMen} alt="x-men" className="comicPage__img" />
                 <div className="comicPage__info">
