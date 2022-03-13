@@ -1,54 +1,61 @@
 import md5 from 'md5'
+import usehttp from '../hooks/http.hook'
 
-class MarvelService {
-    static _apiBase = 'https://gateway.marvel.com:443/v1/public/'
-    static _apiPublicKey = '501c32c8096d96aabefe16305a1b4371'
-    static _apiPrivateKey = 'cf3a965c94a82a96ab36e31940ad7a43fba9af96'
-    static _ts = '1'
-    static _hash = md5(this._ts + this._apiPrivateKey + this._apiPublicKey);
-    static _apiAuth = `?apikey=${this._apiPublicKey}&ts=${this._ts}&hash=${this._hash}`
-    
-    
-    static getResource = async url => {
-        const res = await fetch(url);
+const useMarvelService = () => {
+    const {loading, error, getResource} = usehttp()
 
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, status is ${res.status}`)
-        }
+    const 
+        _apiBase = 'https://gateway.marvel.com:443/v1/public/',
+        _apiPublicKey = '501c32c8096d96aabefe16305a1b4371',
+        _apiPrivateKey = 'cf3a965c94a82a96ab36e31940ad7a43fba9af96',
+        _ts = '1',
+        _hash = md5(_ts + _apiPrivateKey + _apiPublicKey),
+        _apiAuth = `?apikey=${_apiPublicKey}&ts=${_ts}&hash=${_hash}`
 
-        return await res.json();
+    async function getCharacter(id) {
+        const res = await getResource(`${_apiBase}characters/${id + _apiAuth}`)
+        return _transformChar(res.data.results[0])
     }
 
-    static getCharacter = async id => {
-        const res = await this.getResource(`${this._apiBase}characters/${id + this._apiAuth}`)
-        return this._transformChar(res.data.results[0])
-    }
-
-    static getRandomCharacter = async () => {
+    async function getRandomCharacter() {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
-        return this.getCharacter(id);
+        return await getCharacter(id);
     }
 
-    static getCharacters = async (number, offset) => {
-        const res = await this.getResource(`${this._apiBase}characters${this._apiAuth}&limit=${number}&offset=${offset}`)
-        return res.data.results.map(char => this._transformChar(char))
+    async function getCharacters(number, offset) {
+        const res = await getResource(`${_apiBase}characters${_apiAuth}&limit=${number}&offset=${offset}`)
+        return res.data.results.map(char => _transformChar(char))
     }
 
-    static _transformChar = ({id, name, description, thumbnail, urls, comics}) => {
+    async function getComics(number, offset) {
+        const res = await getResource(`${_apiBase}comics${_apiAuth}&limit=${number}&offset=${offset}`)
+        return res.data.results.map(comic => _transformComic(comic))
+    }
+
+    function _transformChar({id, name, description, thumbnail, urls, comics}) {
         description = description.length > 230 ? description.slice(0, 228) + '...' : description
-        const objectFit = /image_not_available$/.test(thumbnail.path) ? 'contain' : 'cover'
         
         return {
             id,
             name,
             description: description ? description : 'Description is not available :(',
             thumbnail: thumbnail.path + '.' + thumbnail.extension,
-            objectFit,
             homepage: urls[0].url,
             wiki: urls[0].url,
             comics: comics.items
         }
     }
+
+    function _transformComic({id, title, prices, thumbnail}) {
+        return {
+            id,
+            price: prices[0].price + '$',
+            thumbnail: thumbnail.path + '.' + thumbnail.extension,
+            title
+        }
+    }
+
+    return {loading, error, getCharacter, getRandomCharacter, getCharacters, getComics}
 }
 
-export default MarvelService
+export default useMarvelService

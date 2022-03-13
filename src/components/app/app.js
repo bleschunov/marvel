@@ -1,4 +1,5 @@
-import { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useState } from 'react'
 import './app.scss';
 
 import AppHeader from '../appHeader/appHeader'
@@ -13,54 +14,50 @@ import ErrorBoundary from '../errorBoundary/errorBoundary';
 
 import vision from '../../resources/images/vision.png'
 
-class App extends Component {
-  state = {
-    selectedCharId: null
+const App = () => {
+  const [selectedCharId, setSelectedCharId] = useState(null)
+
+  function onSelectChar(selectedCharId) {
+    setSelectedCharId(selectedCharId)
   }
 
-  onSelectChar = selectedCharId => {
-    this.setState({
-      selectedCharId
-    })
-  }
-
-  render() {
-    let charInfo
-    if (this.state.selectedCharId) {
-      charInfo = <CharInfo selectedCharId={this.state.selectedCharId} className="app__charInfo" />
+  function renderSideBar() {
+    if (selectedCharId) {
+      return <CharInfo selectedCharId={selectedCharId} className="app__charInfo" />
     } else {
-      charInfo = <InfoSkeleton className="app__charInfo" />
+      return <InfoSkeleton className="app__charInfo" />
     }
+  }
 
-    return (
+  return (
+    <Router>
       <div className="app">
         <AppHeader className="app__header" />
         <main>
-          <ErrorBoundary>
-            <RandomChar className="app__randomChar" />
-          </ErrorBoundary>
-          <div className="app__charContent">
+      
+          <Route exact path="/">
             <ErrorBoundary>
-              <CharList onSelectChar={this.onSelectChar} className="app__charList" /> 
+              <RandomChar className="app__randomChar" />
             </ErrorBoundary>
-            <ErrorBoundary>
-              {charInfo}
-            </ErrorBoundary>
-          </div>
-          <img src={vision} alt="vision" className="app__vision" />
+            <div className="app__charContent">
+              <ErrorBoundary>
+                <CharList onSelectChar={onSelectChar} className="app__charList" /> 
+              </ErrorBoundary>
+              <ErrorBoundary>
+                {renderSideBar()}
+              </ErrorBoundary>
+            </div>
+            <img src={vision} alt="vision" className="app__vision" />
+          </Route>
+          <Route exact path="/comics">
+            <AppBanner className="app__appBanner" />
+            <ComicList className="app_comicList" />
+          </Route>
+        
         </main>
       </div>
-      
-      // <div className="app">
-      //   <AppHeader className="app__header" />
-      //   <main>
-      //     <AppBanner className="app__appBanner" />
-      //     {/* <ComicList className="app__comicList" /> */}
-      //     <ComicPage className="app__comicPage" />
-      //   </main>
-      // </div>
-    );
-  }
+    </Router>
+  )
 }
 
 export default App;
