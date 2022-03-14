@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import useMarvelService from '../../services/marvelService'
 import PropTypes from 'prop-types'
@@ -19,7 +20,7 @@ const CharInfo = (props) => {
         setChar( await getCharacter(id) )
     }
 
-    function renderView({name, thumbnail, description, homepage, wiki, comics, objectFit}) {
+    function renderView({name, thumbnail, description, homepage, wiki, comics}) {
         if (loading) return <Spinner />
         else if (error) return <Error />
         else {
@@ -28,16 +29,32 @@ const CharInfo = (props) => {
 
                 for (let i = 0; i < comics.length; i++) {
                     if (i === 10) break 
-                    comicsItems.push(<li key={i}>{comics[i].name}</li>)
+
+                    const comicId = comics[i].resourceURI.match(/\d+$/)
+
+                    comicsItems.push((
+                        <li key={i} className="charInfo__item">
+                            <Link to={`comics/${comicId}`}>
+                                {comics[i].name}
+                            </Link>
+                        </li>
+                    ))
                 }
 
             } else {
                 comicsItems = <li>There are no comics with this character</li>
             }
 
+            const style = { objectFit: null }
+            if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+                style.objectFit = 'contain'
+            } else {
+                style.objectFit = 'cover'
+            }
+
             return (
                 <>
-                    <img src={thumbnail} alt={name} className="charInfo__avatar" style={{ objectFit }} />
+                    <img src={thumbnail} alt={name} style={{style}} className="charInfo__avatar" />
                     <div className="charInfo__header">
                         <h3 className="charInfo__name">{name}</h3>
                         <a href={homepage} className="button button_red charInfo__button">homepage</a>

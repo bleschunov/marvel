@@ -6,17 +6,26 @@ const AppHeader = ({className}) => {
         <header className={`header ${className}`}>
             
             <h1 className="header__header">
-                <Link to="/">
+                <Link to="/marvel">
                     <span>Marvel</span> information portal
                 </Link>
             </h1>
             <ul className="header__nav">
                 <li className="header__item">
-                    <NavLink exact to="/" activeClassName="header__item_active">Characters</NavLink>
+                    <NavLink 
+                        end 
+                        to="/marvel" 
+                        style={({ isActive }) => isActive ? {color: '#9F0013'} : {color: 'inherit'}}>
+                        Characters
+                    </NavLink>
                 </li>
                 /
                 <li className="header__item">
-                    <NavLink exact to="/comics" activeClassName="header__item_active">Comics</NavLink>
+                    <NavLink  
+                        to="/marvel/comics" 
+                        style={({ isActive }) => isActive ? {color: '#9F0013'} : {color: 'inherit'}}>
+                        Comics
+                    </NavLink>
                 </li>
             </ul>
             

@@ -2,9 +2,9 @@ import './error.scss'
 
 import error from './error.gif'
 
-const Error = () => {
+const Error = props => {
     return (
-        <img src={error} alt="error" className="error" />
+        <img src={error} alt="error" className={`error ${props.className}`} />
     )
 }
 
