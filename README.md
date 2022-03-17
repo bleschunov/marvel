@@ -4,7 +4,7 @@
 
 ## Preview on GitHub Pages
 
-https://bleschunov.github.io/marvel/characters
+https://bleschunov.github.io/marvel
 
 ## Run at your own
 
