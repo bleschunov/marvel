@@ -7,73 +7,72 @@
 }
 
 .randomChar {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    height: 250px;
+    display: none;
+    
 
-    &__container {
-        padding: 35px 40px 35px 35px;
-        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
-        background-color: transparent;
+    @media screen and (min-width: $s) {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
         
-        
-        &_first {
-           gap: 30px;
-           display: flex;
+        &__container {
+            padding: 35px 40px 35px 35px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+            background-color: transparent;
+            
+            
+            &_first {
+               gap: 30px;
+               display: flex;
+               height: 250px;
+            }
+    
+            &_second {
+                @include grid;
+                justify-content: space-between;
+                flex-direction: column;
+                position: relative;
+                background-image: url('../../resources/images/mjolnir.png');
+                background-repeat: no-repeat;
+                background-position: right bottom;
+            }
+    
+            &_light {
+                background-color: $white;
+            }
+    
+            &_dark {
+                background-color: $black;
+            }
         }
-
-        &_second {
+    
+        &__avatar {
+            width: 180px;
+            height: 180px;
+            object-position: top;
+        }
+    
+        &__info {
             @include grid;
-            justify-content: space-between;
-            flex-direction: column;
-            position: relative;
-            background-image: url('../../resources/images/mjolnir.png');
-            background-repeat: no-repeat;
-            background-position: right bottom;
         }
-
-        &_light {
-            background-color: $white;
+    
+        &__header {
+            text-transform: uppercase;
+            font-size: 22px;
+            font-weight: bold;
         }
-
-        &_dark {
-            background-color: $black;
+    
+        &__title {
+            color: $white;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1;
         }
-    }
+    
+        &__buttonGroup {
+            display: flex;
+            gap: 30px;
+        }
+    }  
 
-    &__avatar {
-        width: 180px;
-        height: 180px;
-        object-position: top;
-    }
-
-    &__info {
-        @include grid;
-    }
-
-    &__header {
-        text-transform: uppercase;
-        font-size: 22px;
-        font-weight: bold;
-    }
-
-    &__title {
-        color: $white;
-        font-size: 24px;
-        font-weight: bold;
-        z-index: 1;
-    }
-
-    &__buttonGroup {
-        display: flex;
-        gap: 30px;
-    }
-
-    // &__image {
-    //     position: absolute;
-    //     bottom: 15px;
-    //     left: 0;
-    //     z-index: 0;
-    // }
-
+    
 }

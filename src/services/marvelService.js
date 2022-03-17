@@ -17,6 +17,12 @@ const useMarvelService = () => {
         return _transformChar(res.data.results[0])
     }
 
+    async function getCharacterByName(name) {
+        const res = await getResource(`${_apiBase}characters?name=${name}&apikey=${_apiPublicKey}`)
+        if (res.data.results[0]) return _transformChar(res.data.results[0])
+        else throw new Error()
+    }
+
     async function getRandomCharacter() {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
         return await getCharacter(id);
@@ -41,7 +47,7 @@ const useMarvelService = () => {
         description = description.length > 230 ? description.slice(0, 228) + '...' : description
         
         return {
-            id,
+            id: String(id),
             name,
             description: description ? description : 'Description is not available :(',
             thumbnail: thumbnail.path + '.' + thumbnail.extension,
@@ -53,7 +59,7 @@ const useMarvelService = () => {
 
     function _transformComic({id, title, prices, thumbnail, description, textObjects, pageCount}) {
         return {
-            id,
+            id: String(id),
             price: prices[0].price + '$',
             description: description ? description : 'Description is not available :(',
             language: textObjects.language ? 'Language: ' + textObjects.language : null,
@@ -67,6 +73,7 @@ const useMarvelService = () => {
         loading, 
         error, 
         getCharacter, 
+        getCharacterByName,
         getRandomCharacter, 
         getCharacters, 
         getComic,

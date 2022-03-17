@@ -15,17 +15,37 @@
   }
 
   &__charContent {
-    display: flex;
-    gap: 25px;
+    display: grid;
+    column-gap: 25px;
+  
+    // @media screen and (min-width: $s) {
+    //   grid-template-columns: auto 1fr;
+    // }
+
+    @media screen and (min-width: $m) {
+      grid-template-columns: 3fr 2fr;
+    }
   }
 
   &__charList {
-    flex-basis: 60%;
+  }
+
+  &__sidebar {
+    align-self: flex-start;
+    grid-row: 1 / span 1;
+    margin-bottom: 50px;
+
+    @media screen and (min-width: $m) {
+      grid-column: 2 / span 1;
+    }
   }
 
   &__charInfo {
-    flex-basis: 40%;
-    align-self: start;
+    margin-bottom: 30px;
+  }
+
+  &__searchForm {
+
   }
 
   &__appBanner {

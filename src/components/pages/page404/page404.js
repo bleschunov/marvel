@@ -9,7 +9,7 @@ const Page404 = () => {
         <div className="page404">
             <Error className="page404__error" />
             <p className="page404__message">This page does not exist</p>
-            <Link to="/marvel" className="page404__button">Go to homepage</Link>
+            <Link to="/marvel/characters" className="page404__button">Go to homepage</Link>
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import useMarvelService from '../../services/marvelService'
 
 import Spinner from '../spinner/spinner'
@@ -34,16 +35,20 @@ const ComicList = props => {
             const {id, price, thumbnail, title} = item
 
             return (
-                <li 
+                <CSSTransition 
                     key={id} 
-                    tabIndex='0'
-                    className="comicList__card">
-                    <Link to={`${id}`}>
-                        <img src={thumbnail} className="comicList__img" />
-                        <h3 className="comicList__header">{title}</h3>
-                        <div className="comicList__price">{price}</div>
-                    </Link>
-                </li>
+                    timeout={500} 
+                    classNames="comicList__card">
+                    <li 
+                        tabIndex='0'
+                        className="comicList__card">
+                        <Link to={`${id}`}>
+                            <img src={thumbnail} className="comicList__img" />
+                            <h3 className="comicList__header">{title}</h3>
+                            <div className="comicList__price">{price}</div>
+                        </Link>
+                    </li>
+                </CSSTransition>
             )
         })
     }
@@ -63,7 +68,9 @@ const ComicList = props => {
     return (
        <section className={`comicList ${props.className}`}>
            <div className="comicList__grid">
-                {renderCards(comics)}
+                <TransitionGroup component={null}>
+                    {renderCards(comics)}
+                </TransitionGroup>
             </div>
             <div className="comicList__footer">
                 {renderFooter()}

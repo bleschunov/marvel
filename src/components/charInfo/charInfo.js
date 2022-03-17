@@ -14,10 +14,10 @@ const CharInfo = (props) => {
 
     const {loading, error, getCharacter} = useMarvelService()
 
-    useEffect(async () => updateChar(props.selectedCharId), [props.selectedCharId])
+    useEffect(() => updateChar(props.selectedCharId), [props.selectedCharId])
 
     async function updateChar(id) {
-        setChar( await getCharacter(id) )
+        setChar(await getCharacter(id))
     }
 
     function renderView({name, thumbnail, description, homepage, wiki, comics}) {
@@ -34,7 +34,7 @@ const CharInfo = (props) => {
 
                     comicsItems.push((
                         <li key={i} className="charInfo__item">
-                            <Link to={`comics/${comicId}`}>
+                            <Link to={`/marvel/comics/${comicId}`}>
                                 {comics[i].name}
                             </Link>
                         </li>
@@ -72,7 +72,7 @@ const CharInfo = (props) => {
 
     return (
         <section className={`charInfo ${props.className}`}>
-            {char ? renderView(char) : null}
+            { char ? renderView(char) : null}
         </section>
     )
 }

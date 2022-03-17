@@ -5,6 +5,7 @@ import RandomChar from "../randomChar/randomChar"
 import CharList from "../charList/charList"
 import InfoSkeleton from "../infoSkeleton/infoSkeleton"
 import CharInfo from "../charInfo/charInfo"
+import SearchForm from '../searchForm/searchForm'
 
 import vision from '../../resources/images/vision.png'
 
@@ -15,7 +16,7 @@ const MainPage = () => {
         setSelectedCharId(selectedCharId)
     }
 
-    function renderSideBar() {
+    function renderInfo() {
         if (selectedCharId) {
             return <CharInfo selectedCharId={selectedCharId} className="app__charInfo" />
         } else {
@@ -30,11 +31,18 @@ const MainPage = () => {
             </ErrorBoundary>
             <div className="app__charContent">
                 <ErrorBoundary>
-                <CharList onSelectChar={onSelectChar} className="app__charList" /> 
+                    <CharList onSelectChar={onSelectChar} className="app__charList" /> 
                 </ErrorBoundary>
-                <ErrorBoundary>
-                {renderSideBar()}
-                </ErrorBoundary>
+                
+                    <div className="app__sidebar">
+                        <ErrorBoundary>
+                            {renderInfo()}
+                        </ErrorBoundary>
+                        <ErrorBoundary>
+                            <SearchForm className="app__searchForm" />
+                        </ErrorBoundary>
+                    </div>
+                
             </div>
             <img src={vision} alt="vision" className="app__vision" />
         </>

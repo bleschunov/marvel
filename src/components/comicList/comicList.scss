@@ -18,6 +18,17 @@
         gap: 10px;
     }
 
+    &__card-enter {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+
+    &__card-enter-active {
+        transform: translateY(0);
+        opacity: 1;
+        transition: all 500ms cubic-bezier(0, 0.55, 0.45, 1);
+    }
+
     &__img {
         width: 100%
     }

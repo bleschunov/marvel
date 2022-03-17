@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import useMarvelService from '../../services/marvelService'
 import PropTypes from 'prop-types'
 
@@ -48,28 +49,33 @@ const CharList = props => {
             }
 
             return (
-                <li
-                    tabIndex="0"
-                    onClick={() => {
-                        onSelectChar(index)
-                        props.onSelectChar(id)
-                    }}
-                    onKeyPress={event => {
-                        if (event.key === 'Enter') {
+                <CSSTransition
+                    in={loading}
+                    timeout={500}
+                    classNames="charList__card"
+                    key={id} >
+                    <li
+                        tabIndex="0"
+                        onClick={() => {
                             onSelectChar(index)
                             props.onSelectChar(id)
-                        }
-                    }} 
-                    className="charList__card" 
-                    ref={elem => cards.current[index] = elem}
-                    key={id} >
-                    <img 
-                        src={thumbnail} 
-                        alt={name} 
-                        className="charList__avatar" 
-                        style={style} />
-                    <h3 className="charList__header">{name}</h3>
-                </li>    
+                        }}
+                        onKeyPress={event => {
+                            if (event.key === 'Enter') {
+                                onSelectChar(index)
+                                props.onSelectChar(id)
+                            }
+                        }} 
+                        className="charList__card" 
+                        ref={elem => cards.current[index] = elem} >
+                        <img 
+                            src={thumbnail} 
+                            alt={name} 
+                            className="charList__avatar" 
+                            style={style} />
+                        <h3 className="charList__header">{name}</h3>
+                    </li>  
+                </CSSTransition>  
             )
         })
     }
@@ -89,7 +95,9 @@ const CharList = props => {
     return (
         <section className={`charList ${props.className}`}>
             <ul className="charList__grid">
-                {renderCards(chars)}
+                <TransitionGroup component={null}>
+                    {renderCards(chars)}
+                </TransitionGroup>
             </ul>
             <div className="charList__footer">
                 {renderFooter()}

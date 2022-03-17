@@ -23,5 +23,5 @@ Start this app.
     npm start
 ```
 
-Profit! The app is running at your brawser now!
+Profit! The app is running at your browser now!
 
