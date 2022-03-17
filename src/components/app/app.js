@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './app.scss'
 
 import AppHeader from '../appHeader/appHeader'
@@ -26,6 +26,7 @@ const App = () => {
         <AppHeader className="app__header" />
         <main>
           <Routes>
+            <Route path="/marvel" element={<Navigate to="characters" />} />
             <Route path="/marvel/characters" element={<MainPage />} />
             <Route path="/marvel/comics" element={<ComicsPage />} />
             <Route 
