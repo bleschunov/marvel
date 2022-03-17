@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import useMarvelService from '../../services/marvelService'
 
-import Spinner from '../spinner/spinner'
-import Error from '../error/error'
+import getContent from '../../utils/getContent'
 
 import './randomChar.scss'
 import '../../styles/button.scss'
@@ -10,7 +9,7 @@ import '../../styles/button.scss'
 const RandomChar = props => {
     const [char, setChar] = useState({})
     
-    const {loading, error, getRandomCharacter} = useMarvelService()
+    const {process, getRandomCharacter} = useMarvelService()
 
     useEffect(updateChar, [])
 
@@ -18,10 +17,8 @@ const RandomChar = props => {
         setChar( await getRandomCharacter() )
     }
 
-    function renderView({name, thumbnail, objectFit, description, homepage, wiki}) {
-        if (loading) return <Spinner />
-        else if (error) return <Error />
-        else return (
+    const View = ({name, thumbnail, objectFit, description, homepage, wiki}) => {
+        return (
             <>
                 <img src={thumbnail} alt={name} className="randomChar__avatar" style={{ objectFit }} />
                 <div className="randomChar__info"> 
@@ -39,7 +36,7 @@ const RandomChar = props => {
     return (
         <div className={`randomChar ${props.className}`}>
             <div className="randomChar__container randomChar__container_light randomChar__container_first">
-                {renderView(char)}
+                {getContent(process, View, char)}
             </div>
             <div className="randomChar__container randomChar__container_dark randomChar__container_second">
                 <div>

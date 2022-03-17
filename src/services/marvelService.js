@@ -2,7 +2,7 @@ import md5 from 'md5'
 import usehttp from '../hooks/http.hook'
 
 const useMarvelService = () => {
-    const {loading, error, getResource} = usehttp()
+    const {getResource, process} = usehttp()
 
     const 
         _apiBase = 'https://gateway.marvel.com:443/v1/public/',
@@ -25,7 +25,17 @@ const useMarvelService = () => {
 
     async function getRandomCharacter() {
         const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000)
-        return await getCharacter(id);
+        try {
+            const res = await getResource(`${_apiBase}characters/${id + _apiAuth}`)
+
+            if (res.code === 404) {
+                throw new Error(`The character with id ${id} does not exist`)
+            }
+
+            return _transformChar(res.data.results[0])
+        } catch (error) {
+            return await getRandomCharacter()
+        }
     }
 
     async function getCharacters(number, offset) {
@@ -70,8 +80,7 @@ const useMarvelService = () => {
     }
 
     return {
-        loading, 
-        error, 
+        process,
         getCharacter, 
         getCharacterByName,
         getRandomCharacter, 

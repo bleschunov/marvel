@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import useMarvelService from '../../services/marvelService'
 
-import Spinner from '../spinner/spinner'
-import Error from '../error/error'
+import getContent from '../../utils/getContent'
 
 import './comicList.scss'
 import '../../styles/button.scss'
@@ -15,7 +14,7 @@ const ComicList = props => {
         [offset, setOffset] = useState(1000),
         [isEnd, setIsEnd] = useState(false)
 
-    const {loading, error, getComics} = useMarvelService()
+    const {process, getComics} = useMarvelService()
 
     useEffect(() => loadComics(8), [])
 
@@ -43,7 +42,7 @@ const ComicList = props => {
                         tabIndex='0'
                         className="comicList__card">
                         <Link to={`${id}`}>
-                            <img src={thumbnail} className="comicList__img" />
+                            <img src={thumbnail} className="comicList__img" alt={title} />
                             <h3 className="comicList__header">{title}</h3>
                             <div className="comicList__price">{price}</div>
                         </Link>
@@ -53,10 +52,9 @@ const ComicList = props => {
         })
     }
 
-    function renderFooter() {
-        if (loading) return <Spinner />
-        else if (error) return <Error />
-        else if (!isEnd) return (
+    const Footer = () => {
+        if (isEnd) return null
+        else return (
             <button 
                 onClick={() => loadComics(8)} 
                 className="button button_red button_long">
@@ -73,7 +71,7 @@ const ComicList = props => {
                 </TransitionGroup>
             </div>
             <div className="comicList__footer">
-                {renderFooter()}
+                {getContent(process, Footer)}
             </div>
         </section>
     )

@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
+
 import './appHeader.scss'
 
 const AppHeader = ({className}) => {
@@ -13,7 +14,6 @@ const AppHeader = ({className}) => {
             <ul className="header__nav">
                 <li className="header__item">
                     <NavLink 
-                         
                         to="/marvel/characters" 
                         style={({ isActive }) => isActive ? {color: '#9F0013'} : {color: 'inherit'}}>
                         Characters

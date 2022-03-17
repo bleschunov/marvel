@@ -1,31 +1,28 @@
 import { useState } from 'react'
 
 const useHttp = () => {
-    const
-        [loading, setLoading] = useState(true),
-        [error, setError] = useState(false)
+    const [process, setProcess] = useState('waiting')
 
     async function getResource(url) {
-        setLoading(true)
-        setError(false)
+        setProcess('fetching')
 
+        let res
         try {
-            const res = await fetch(url)
+            res = await fetch(url)
 
-            if (!res.ok) {
+            if (!res.ok && res.status !== 404) {
                 throw new Error(`Could not fetch ${url}, status is ${res.status}`)
             }
 
-            setLoading(false)
+            setProcess('waiting')
             return await res.json()
         } catch (error) {
             console.log(error)
-            setLoading(false)
-            setError(true)
+            setProcess('error')
         }
     }
 
-    return {loading, error, getResource}
+    return {getResource, process}
 }
 
 export default useHttp

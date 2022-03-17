@@ -28,14 +28,11 @@ const SearchForm = ({className}) => {
                     .then(char => {
                         setSuccess(true)
                         setMessage((
-                            <>
-                                <div className="searchForm__message searchForm__message_success">
-                                    There is! Visit {char.name} page?
-                                    <Link to={char.id} className="button button_gray searchForm__link">to page</Link> 
-                                </div>
-                            </>
+                            <div className="searchForm__message searchForm__message_success">
+                                There is! Visit {char.name} page?
+                                <Link to={char.id} className="button button_gray searchForm__link">to page</Link> 
+                            </div>  
                         ))
-                        
                     })
                     .catch(() => {
                         setSuccess(false)
@@ -44,7 +41,6 @@ const SearchForm = ({className}) => {
                                 The character was not found. Check the name and try again
                             </div>
                         ))
-                        
                     })
             }}>
                 <Form className={`searchForm ${className}`}>
@@ -64,7 +60,7 @@ const SearchForm = ({className}) => {
                         key={success}
                         timeout={500}
                         classNames="searchForm__message">
-                         {message}
+                        {message}
                     </CSSTransition>    
                 </SwitchTransition>
             </Form>

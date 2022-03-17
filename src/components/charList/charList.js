@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import useMarvelService from '../../services/marvelService'
 import PropTypes from 'prop-types'
 
-import Spinner from '../spinner/spinner'
-import Error from '../error/error'
+import getContent from '../../utils/getContent'
 
 import './charList.scss'
 import '../../styles/button.scss'
@@ -15,7 +14,7 @@ const CharList = props => {
         [offset, setOffset] = useState(500),
         [isEnd, setIsEnd] = useState(false)
     
-    const {loading, error, getCharacters} = useMarvelService()
+    const {process, getCharacters} = useMarvelService()
 
     useEffect(() => loadChars(9), [])
 
@@ -50,7 +49,6 @@ const CharList = props => {
 
             return (
                 <CSSTransition
-                    in={loading}
                     timeout={500}
                     classNames="charList__card"
                     key={id} >
@@ -80,10 +78,9 @@ const CharList = props => {
         })
     }
 
-    function renderFooter() {
-        if (loading) return <Spinner />
-        else if (error) return <Error />
-        else if (!isEnd) return (
+    const Footer = () => {
+        if (isEnd) return null
+        else return (
             <button 
                 onClick={() => loadChars(9)} 
                 className="button button_red button_long">
@@ -92,15 +89,17 @@ const CharList = props => {
         )
     }
 
+    const renderedCards = useMemo(() => renderCards(chars), [chars])
+
     return (
         <section className={`charList ${props.className}`}>
             <ul className="charList__grid">
                 <TransitionGroup component={null}>
-                    {renderCards(chars)}
+                    {renderedCards}
                 </TransitionGroup>
             </ul>
             <div className="charList__footer">
-                {renderFooter()}
+                {getContent(process, Footer)}
             </div>
         </section>
     )

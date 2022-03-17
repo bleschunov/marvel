@@ -7,7 +7,7 @@ import Error from '../../error/error'
 import Spinner from '../../spinner/spinner'
 
 const SinglePage = ({Component, dataType}) => {
-    const [char, setChar] = useState(false)
+    const [data, setData] = useState(false)
     const 
         navigate = useNavigate(),
         { id } = useParams(),
@@ -23,16 +23,16 @@ const SinglePage = ({Component, dataType}) => {
             break
     }
 
-    useEffect(async () => updateChar(id), [])
+    useEffect(async () => updateData(id), [])
 
-    async function updateChar(id) {
-        setChar( await getFunc(id) )
+    async function updateData(id) {
+        setData( await getFunc(id) )
     }
 
     function renderView() {
         if (loading) return <Spinner />
         else if (error) return <Error />
-        else return <Component char={char} navigate={navigate} />
+        else return <Component data={data} navigate={navigate} />
     }
 
     return (
