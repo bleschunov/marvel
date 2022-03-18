@@ -1,10 +1,25 @@
-# Marvel
+# React single page application using Marvel API.
 
-### React single page application using Marvel API 
+## Description
+
+This is a pet project from Ivan Petrichenko's [course](https://www.udemy.com/course/javascript_full/) on Udemy.
+
+This app fetching information about Marvel heroes and comics from free official [Marvel API](https://developer.marvel.com). 
+
+## Technologies and libraries
+
+- React + Webpack
+- SASS
+- Formik + Yup
+- React Helmet
+- React Router
+- React Transition Group
 
 ## Preview on GitHub Pages
 
 https://bleschunov.github.io/marvel
+
+![Preview](src/resources/images/marvel.png)
 
 ## Run at your own
 
