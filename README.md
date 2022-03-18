@@ -19,8 +19,6 @@ This app fetching information about Marvel heroes and comics from free official 
 
 https://bleschunov.github.io/marvel
 
-![Preview](src/resources/images/marvel.png)
-
 ## Run at your own
 
 Clone this repo to your local machine.
